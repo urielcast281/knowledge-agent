@@ -1,0 +1,16 @@
+{
+  "name": "dragon-copicks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dragon Co Picks — PrizePicks pick generator + Telegram poster with Claude intelligence",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node run-daily.js",
+    "dry-run": "DRAGON_DRY_RUN=1 node run-daily.js",
+    "test": "node test/pipeline.test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.107.0",
+    "playwright": "^1.49.0"
+  }
+}

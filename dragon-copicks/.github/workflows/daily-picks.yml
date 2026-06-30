@@ -1,0 +1,37 @@
+name: Dragon Co Picks — daily
+
+on:
+  schedule:
+    # 15:00 UTC daily ≈ 10:00 ET / 07:00 PT. Adjust to your slate.
+    - cron: '0 15 * * *'
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  post-picks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dragon-copicks
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Dragon Co Picks
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Optional tuning (uncomment / set as repo variables or secrets):
+          # DRAGON_LEAGUES: NBA,NFL,MLB
+          # DRAGON_SLIP_SIZE: '6'
+          # DRAGON_MIN_CONFIDENCE: '0.58'
+        run: node run-daily.js

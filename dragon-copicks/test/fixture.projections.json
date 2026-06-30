@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "type": "projection",
+      "id": "101",
+      "attributes": { "line_score": 27.5, "stat_type": "Points", "odds_type": "standard", "description": "vs BOS", "start_time": "2999-01-01T00:00:00Z", "rank": 1 },
+      "relationships": { "new_player": { "data": { "type": "new_player", "id": "1" } }, "league": { "data": { "type": "league", "id": "7" } } }
+    },
+    {
+      "type": "projection",
+      "id": "102",
+      "attributes": { "line_score": 8.5, "stat_type": "Assists", "odds_type": "standard", "description": "vs BOS", "start_time": "2999-01-01T00:00:00Z", "rank": 3 },
+      "relationships": { "new_player": { "data": { "type": "new_player", "id": "1" } }, "league": { "data": { "type": "league", "id": "7" } } }
+    },
+    {
+      "type": "projection",
+      "id": "103",
+      "attributes": { "line_score": 6.5, "stat_type": "Rebounds", "odds_type": "demon", "description": "vs BOS", "start_time": "2999-01-01T00:00:00Z" },
+      "relationships": { "new_player": { "data": { "type": "new_player", "id": "5" } }, "league": { "data": { "type": "league", "id": "7" } } }
+    },
+    {
+      "type": "projection",
+      "id": "201",
+      "attributes": { "line_score": 24.5, "stat_type": "Points", "odds_type": "standard", "description": "@ MIA", "start_time": "2999-01-01T00:00:00Z", "rank": 2 },
+      "relationships": { "new_player": { "data": { "type": "new_player", "id": "2" } }, "league": { "data": { "type": "league", "id": "7" } } }
+    },
+    {
+      "type": "projection",
+      "id": "301",
+      "attributes": { "line_score": 0, "stat_type": "Points", "odds_type": "standard", "description": "", "start_time": "2999-01-01T00:00:00Z" },
+      "relationships": { "new_player": { "data": { "type": "new_player", "id": "3" } }, "league": { "data": { "type": "league", "id": "7" } } }
+    },
+    {
+      "type": "projection",
+      "id": "401",
+      "attributes": { "line_score": 275.5, "stat_type": "Passing Yards", "odds_type": "standard", "description": "vs GB", "start_time": "2999-01-01T00:00:00Z", "rank": 1 },
+      "relationships": { "new_player": { "data": { "type": "new_player", "id": "4" } }, "league": { "data": { "type": "league", "id": "9" } } }
+    }
+  ],
+  "included": [
+    { "type": "new_player", "id": "1", "attributes": { "display_name": "Player One", "team": "LAL", "position": "G", "league": "NBA" } },
+    { "type": "new_player", "id": "2", "attributes": { "display_name": "Player Two", "team": "NYK", "position": "F", "league": "NBA" } },
+    { "type": "new_player", "id": "3", "attributes": { "display_name": "Player Three", "team": "GSW", "position": "C", "league": "NBA" } },
+    { "type": "new_player", "id": "4", "attributes": { "display_name": "Quarterback Four", "team": "DAL", "position": "QB", "league": "NFL" } },
+    { "type": "new_player", "id": "5", "attributes": { "display_name": "Player Five", "team": "MIA", "position": "F", "league": "NBA" } },
+    { "type": "league", "id": "7", "attributes": { "name": "NBA" } },
+    { "type": "league", "id": "9", "attributes": { "name": "NFL" } }
+  ]
+}
