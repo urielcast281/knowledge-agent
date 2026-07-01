@@ -39,6 +39,16 @@ cd /mnt/c/Users/harim/.openclaw/workspace/kalshi/agent
 node knowledge-trader.js
 ```
 
+## Closing / Cancelling Everything
+To get completely out of the market — cancel all resting orders and sell every
+open position back at a marketable price:
+```bash
+node close-positions.js          # DRY RUN — prints exactly what it would do
+node close-positions.js --live   # actually cancel orders + sell positions
+```
+Options: `--ticker=XYZ` (limit to one market), `--edge=N` (price N¢ inside the
+bid for a faster fill). Sells cross to the current bid so they fill immediately.
+
 ## Cron Schedule
 Runs every 30 minutes autonomously. Reports results to Telegram.
 
