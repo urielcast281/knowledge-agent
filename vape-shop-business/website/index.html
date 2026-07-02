@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Dash Vapor Co. — In. Out. Gone in Five.</title>
+<style>
+  /* ============================================================
+     DASH VAPOR CO. — placeholder brand name, swap via find/replace
+     Single-file site. No external dependencies.
+     ============================================================ */
+  :root{
+    --bg:#08080c;
+    --bg-2:#0d0d14;
+    --bg-3:#12121b;
+    --ink:#f5f5f7;
+    --muted:#9a9aa6;
+    --ember:#ff7a29;
+    --ember-deep:#c74e0a;
+    --line:rgba(255,255,255,.08);
+    --maxw:1160px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  body.gated{overflow:hidden}
+  ::selection{background:var(--ember);color:#000}
+
+  /* ---------- FDA-style warning banner ---------- */
+  .fda-warning{
+    background:#fff;color:#000;
+    font-weight:800;font-size:clamp(.8rem,1.6vw,1rem);
+    text-align:center;padding:.85rem 1rem;
+    letter-spacing:.01em;
+    position:relative;z-index:60;
+    border-bottom:3px solid #000;
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    padding:1rem clamp(1rem,4vw,3rem);
+    background:rgba(8,8,12,.82);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink)}
+  .brand-mark{width:30px;height:30px;flex:0 0 auto}
+  .brand-name{
+    font-weight:900;letter-spacing:.22em;font-size:.95rem;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .brand-name em{font-style:normal;color:var(--ember)}
+  .nav-links{display:flex;gap:clamp(.6rem,2.2vw,2rem);flex-wrap:wrap;justify-content:flex-end}
+  .nav-links a{
+    color:var(--muted);text-decoration:none;font-size:.78rem;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase;
+    padding:.35rem 0;position:relative;transition:color .25s;
+  }
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:0;height:2px;width:0;
+    background:var(--ember);transition:width .3s;
+  }
+  .nav-links a:hover,.nav-links a.active{color:var(--ink)}
+  .nav-links a.active::after{width:100%}
+
+  /* ---------- Sections & typography ---------- */
+  section{position:relative;overflow:hidden;padding:clamp(5rem,12vh,9rem) clamp(1.2rem,5vw,3rem)}
+  .inner{max-width:var(--maxw);margin:0 auto;position:relative;z-index:3}
+  .kicker{
+    color:var(--ember);font-size:.75rem;font-weight:800;letter-spacing:.35em;
+    text-transform:uppercase;margin-bottom:1.2rem;
+  }
+  h1{
+    font-size:clamp(2.6rem,8vw,6.2rem);line-height:1.02;font-weight:900;
+    letter-spacing:-.02em;text-transform:uppercase;
+  }
+  h2{
+    font-size:clamp(1.9rem,4.5vw,3.4rem);line-height:1.08;font-weight:900;
+    letter-spacing:-.015em;text-transform:uppercase;margin-bottom:1.4rem;
+  }
+  h3{font-size:1.05rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.5rem}
+  .lede{color:var(--muted);font-size:clamp(1rem,2vw,1.25rem);max-width:44rem}
+  .accent{color:var(--ember)}
+
+  /* ---------- Hero ---------- */
+  #home{
+    min-height:calc(100vh - 120px);
+    display:flex;align-items:center;
+    background:
+      radial-gradient(1200px 600px at 75% 20%, rgba(255,122,41,.07), transparent 60%),
+      var(--bg);
+  }
+  .hero-tag{
+    display:inline-block;border:1px solid var(--line);border-radius:999px;
+    padding:.4rem 1.1rem;font-size:.72rem;font-weight:700;letter-spacing:.25em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:2rem;
+  }
+  .hero-cta{display:flex;gap:1rem;margin-top:2.6rem;flex-wrap:wrap}
+  .btn{
+    display:inline-block;text-decoration:none;font-weight:800;font-size:.8rem;
+    letter-spacing:.18em;text-transform:uppercase;padding:1rem 2.2rem;
+    border-radius:2px;transition:transform .2s,box-shadow .2s,background .2s;
+  }
+  .btn-primary{background:var(--ember);color:#0a0a0a}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,122,41,.35)}
+  .btn-ghost{border:1px solid rgba(255,255,255,.25);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ember);color:var(--ember)}
+  .hero-stats{display:flex;gap:clamp(1.5rem,5vw,4rem);margin-top:4rem;flex-wrap:wrap}
+  .stat .num{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em}
+  .stat .lbl{color:var(--muted);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-top:.2rem}
+
+  /* ---------- Smoke system ---------- */
+  .smoke-layer{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+  .smoke{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle at 40% 40%, rgba(255,255,255,.10), rgba(255,255,255,.035) 45%, transparent 70%);
+    filter:blur(30px);
+    will-change:transform,opacity;
+    animation:drift linear infinite;
+  }
+  .smoke.warm{
+    background:radial-gradient(circle at 40% 40%, rgba(255,140,60,.09), rgba(255,122,41,.03) 45%, transparent 70%);
+  }
+  @keyframes drift{
+    0%  {transform:translate(-8%,6%) scale(1);opacity:0}
+    12% {opacity:.85}
+    50% {transform:translate(45%,-14%) scale(1.35);opacity:.55}
+    88% {opacity:.25}
+    100%{transform:translate(105%,-30%) scale(1.7);opacity:0}
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+  /* ---------- Cards / grids ---------- */
+  .grid{display:grid;gap:1.2rem;margin-top:3rem}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .card{
+    background:var(--bg-3);border:1px solid var(--line);border-radius:6px;
+    padding:2rem 1.8rem;transition:transform .25s,border-color .25s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(255,122,41,.45)}
+  .card .icon{font-size:1.6rem;margin-bottom:1rem;display:block}
+  .card p{color:var(--muted);font-size:.92rem}
+  .card .tagline{
+    display:inline-block;margin-top:1.1rem;font-size:.68rem;font-weight:800;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--ember);
+  }
+
+  /* ---------- Section shading alternation ---------- */
+  #products{background:var(--bg-2)}
+  #about{background:var(--bg)}
+  #hours{background:var(--bg-2)}
+  #contact{background:var(--bg)}
+
+  /* ---------- About / concept steps ---------- */
+  .steps{display:grid;gap:0;margin-top:3rem;border-top:1px solid var(--line)}
+  .step{
+    display:grid;grid-template-columns:auto 1fr;gap:1.6rem;align-items:start;
+    padding:2rem 0;border-bottom:1px solid var(--line);
+  }
+  .step .n{
+    font-size:2.4rem;font-weight:900;color:transparent;
+    -webkit-text-stroke:1.5px var(--ember);line-height:1;min-width:3.4rem;
+  }
+  .step p{color:var(--muted);max-width:38rem}
+
+  /* ---------- Hours table ---------- */
+  .placeholder-flag{
+    display:inline-block;background:rgba(255,122,41,.12);border:1px dashed var(--ember);
+    color:var(--ember);font-size:.7rem;font-weight:800;letter-spacing:.18em;
+    text-transform:uppercase;padding:.45rem 1rem;border-radius:3px;margin-bottom:1.6rem;
+  }
+  table.hours{width:100%;max-width:520px;border-collapse:collapse;margin-top:1.5rem}
+  table.hours td{
+    padding:.85rem .4rem;border-bottom:1px solid var(--line);font-size:.95rem;
+  }
+  table.hours td:last-child{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+  table.hours tr.today td{color:var(--ember);font-weight:700}
+  .loc-grid{display:grid;gap:2.5rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:2.5rem}
+  .map-stub{
+    border:1px solid var(--line);border-radius:6px;min-height:260px;
+    background:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+      var(--bg-3);
+    background-size:36px 36px;
+    display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .map-pin{text-align:center;color:var(--muted);font-size:.85rem;padding:1rem}
+  .map-pin .pin{
+    width:18px;height:18px;border-radius:50% 50% 50% 0;background:var(--ember);
+    transform:rotate(-45deg);margin:0 auto 1rem;
+    box-shadow:0 0 0 8px rgba(255,122,41,.15);
+    animation:pinpulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pinpulse{0%,100%{box-shadow:0 0 0 6px rgba(255,122,41,.18)}50%{box-shadow:0 0 0 14px rgba(255,122,41,.05)}}
+
+  /* ---------- Contact ---------- */
+  .contact-list{list-style:none;margin-top:2rem;display:grid;gap:1rem;max-width:34rem}
+  .contact-list li{
+    display:flex;gap:1rem;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:1rem;
+  }
+  .contact-list .k{
+    color:var(--ember);font-size:.7rem;font-weight:800;letter-spacing:.2em;
+    text-transform:uppercase;min-width:6.5rem;
+  }
+  .contact-list .v{color:var(--muted)}
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--line);padding:3rem clamp(1.2rem,5vw,3rem);
+    color:var(--muted);font-size:.8rem;
+  }
+  footer .inner{display:grid;gap:1.2rem}
+  footer strong{color:var(--ink)}
+
+  /* ============================================================
+     MASCOT — “Stogie”, the cigar guy. Fixed to viewport bottom,
+     walks along as the user scrolls. Subtle by design.
+     ============================================================ */
+  #mascot{
+    position:fixed;bottom:6px;left:0;z-index:8;
+    width:64px;height:84px;pointer-events:none;
+    opacity:0;transition:opacity .6s;
+    will-change:transform;
+  }
+  #mascot.visible{opacity:.92}
+  #mascot .flip{width:100%;height:100%;transition:transform .3s}
+  #mascot.face-left .flip{transform:scaleX(-1)}
+  .mascot-body{animation:bob 1.1s ease-in-out infinite;animation-play-state:paused;transform-origin:50% 80%}
+  #mascot.walking .mascot-body{animation-play-state:running}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-3px) rotate(1.5deg)}}
+  .leg{transform-origin:50% 0%;animation:stride .55s ease-in-out infinite;animation-play-state:paused}
+  .leg.back{animation-delay:-.275s}
+  #mascot.walking .leg{animation-play-state:running}
+  @keyframes stride{0%,100%{transform:rotate(26deg)}50%{transform:rotate(-26deg)}}
+  .ember-glow{animation:emberpulse 1.6s ease-in-out infinite}
+  @keyframes emberpulse{0%,100%{opacity:.75}50%{opacity:1}}
+  .eyelid{animation:blink 4.6s infinite}
+  @keyframes blink{0%,94%,100%{transform:scaleY(0)}96%,98%{transform:scaleY(1)}}
+  .mascot-puff{
+    position:absolute;top:2px;left:50%;width:14px;height:14px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,.35), transparent 70%);
+    filter:blur(3px);opacity:0;animation:mpuff 2.4s ease-out infinite;
+  }
+  #mascot.walking .mascot-puff{opacity:1}
+  @keyframes mpuff{
+    0%{transform:translate(-50%,0) scale(.4);opacity:0}
+    25%{opacity:.7}
+    100%{transform:translate(-50%,-30px) scale(1.6);opacity:0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .smoke,.mascot-body,.leg,.mascot-puff,.map-pin .pin{animation:none!important}
+    #mascot{display:none}
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+
+  /* ============================================================
+     AGE GATE
+     ============================================================ */
+  #age-gate{
+    position:fixed;inset:0;z-index:1000;
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(900px 500px at 50% 110%, rgba(255,122,41,.10), transparent 65%),
+      rgba(5,5,9,.97);
+    padding:1.2rem;
+    transition:opacity .6s;
+  }
+  #age-gate.dismissed{opacity:0;pointer-events:none}
+  .gate-smoke-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .gate-card{
+    position:relative;z-index:2;max-width:520px;width:100%;
+    background:rgba(13,13,20,.9);border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;padding:clamp(2rem,5vw,3.2rem);text-align:center;
+    box-shadow:0 30px 90px rgba(0,0,0,.7), 0 0 60px rgba(255,122,41,.08);
+    animation:gatein .7s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes gatein{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+  .gate-card .brand-mark{width:44px;height:44px;margin:0 auto 1.2rem}
+  .gate-card h2{font-size:1.5rem;margin-bottom:.8rem}
+  .gate-card p{color:var(--muted);font-size:.95rem;margin-bottom:2rem}
+  .gate-btns{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+  .gate-btns button{
+    font:inherit;font-weight:800;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:1rem 1.8rem;border-radius:3px;cursor:pointer;transition:transform .15s,box-shadow .2s;
+  }
+  #gate-yes{background:var(--ember);border:none;color:#0a0a0a}
+  #gate-yes:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(255,122,41,.4)}
+  #gate-no{background:transparent;border:1px solid rgba(255,255,255,.25);color:var(--ink)}
+  #gate-no:hover{border-color:#e5484d;color:#e5484d}
+  .gate-fine{font-size:.7rem;color:#5c5c66;margin-top:1.6rem;line-height:1.5}
+
+  /* ---------- Lockout screen ---------- */
+  #lockout{
+    position:fixed;inset:0;z-index:2000;display:none;
+    align-items:center;justify-content:center;text-align:center;
+    background:#050509;padding:2rem;
+  }
+  #lockout.active{display:flex}
+  #lockout .box{max-width:460px}
+  #lockout h2{margin-bottom:1rem}
+  #lockout p{color:var(--muted)}
+</style>
+</head>
+<body class="gated">
+
+<!-- ================= AGE GATE ================= -->
+<div id="age-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-smoke-wrap" id="gate-smoke"></div>
+  <div class="gate-card">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="4" y="16" width="28" height="8" rx="4" fill="#8a5a33"/>
+      <rect x="9" y="16" width="4" height="8" fill="#c9973f" opacity=".8"/>
+      <circle cx="34" cy="20" r="4" fill="#ff7a29"/>
+    </svg>
+    <h2 id="gate-title">Are you of legal age?</h2>
+    <p>You must be of legal age to purchase and consume nicotine products in the State of Texas (21+) to enter this site.</p>
+    <div class="gate-btns">
+      <button id="gate-yes" type="button">Yes, I am of legal age</button>
+      <button id="gate-no" type="button">No</button>
+    </div>
+    <p class="gate-fine">By entering, you certify that you are of legal age to purchase nicotine products in your jurisdiction. Age is verified by government-issued ID for every in-store purchase — no exceptions.</p>
+  </div>
+</div>
+
+<!-- ================= LOCKOUT ================= -->
+<div id="lockout" role="alert">
+  <div class="box">
+    <h2>Access <span class="accent">Denied</span></h2>
+    <p>You must be of legal age to purchase nicotine products to access this site. You are not permitted to view this content.</p>
+  </div>
+</div>
+
+<!-- ================= SITE ================= -->
+<div id="site" aria-hidden="true">
+
+  <div class="fda-warning">WARNING: This product contains nicotine. Nicotine is an addictive chemical.</div>
+
+  <nav aria-label="Primary">
+    <a class="brand" href="#home">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="4" y="16" width="28" height="8" rx="4" fill="#8a5a33"/>
+        <rect x="9" y="16" width="4" height="8" fill="#c9973f" opacity=".8"/>
+        <circle cx="34" cy="20" r="4" fill="#ff7a29"/>
+      </svg>
+      <span class="brand-name">Dash <em>Vapor</em> Co.</span>
+    </a>
+    <div class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#products">Products</a>
+      <a href="#about">Quick Shopping</a>
+      <a href="#hours">Hours &amp; Location</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ========== HOME ========== -->
+  <section id="home">
+    <div class="smoke-layer" data-smoke="6"></div>
+    <div class="inner">
+      <span class="hero-tag reveal">Houston, Texas &nbsp;·&nbsp; 21+ Only</span>
+      <h1 class="reveal d1">In. Out.<br>Gone in <span class="accent">five.</span></h1>
+      <p class="lede reveal d2" style="margin-top:1.6rem">
+        Dash Vapor Co. is Houston's grab-and-go vape &amp; tobacco shop. Your product, front and center.
+        A line that moves. Out the door in under five minutes — every visit.
+      </p>
+      <div class="hero-cta reveal d3">
+        <a class="btn btn-primary" href="#products">Browse Products</a>
+        <a class="btn btn-ghost" href="#about">Why We're Fast</a>
+      </div>
+      <div class="hero-stats reveal d3">
+        <div class="stat"><div class="num">&lt;5<span class="accent">min</span></div><div class="lbl">Every visit</div></div>
+        <div class="stat"><div class="num">Top 50</div><div class="lbl">Always in stock</div></div>
+        <div class="stat"><div class="num">100<span class="accent">%</span></div><div class="lbl">ID verified</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRODUCTS ========== -->
+  <section id="products">
+    <div class="smoke-layer" data-smoke="4"></div>
+    <div class="inner">
+      <div class="kicker reveal">Curated. Compliant. In stock.</div>
+      <h2 class="reveal">Products</h2>
+      <p class="lede reveal d1">We stock the products Houston actually buys — deep on the best sellers, zero dead shelves, everything sourced through licensed distributors and legal to sell in Texas.</p>
+      <div class="grid cols-3">
+        <div class="card reveal"><span class="icon">⚡</span><h3>Disposables</h3><p>The express wall: our top-selling disposables at eye level the second you walk in. Compliant brands only — if it's on our shelf, it's legal in Texas.</p><span class="tagline">Grab &amp; go</span></div>
+        <div class="card reveal d1"><span class="icon">🔋</span><h3>Pod Systems</h3><p>Prefilled pod systems and replacement pods from FDA-authorized brands, organized by device — find your system, grab your pods, done.</p><span class="tagline">By your device</span></div>
+        <div class="card reveal d2"><span class="icon">🛠️</span><h3>Mods &amp; Tanks</h3><p>A tight, honest selection of hardware, tanks, and coils for rebuildable users. Ask us anything — answers in two minutes, not twenty.</p><span class="tagline">No fluff wall</span></div>
+        <div class="card reveal"><span class="icon">💧</span><h3>E-Liquids &amp; Salts</h3><p>US-made e-liquids and nic salts, alphabetized by brand with flavor tags on every shelf edge. Your bottle is where it was last time.</p><span class="tagline">Alphabetized</span></div>
+        <div class="card reveal d1"><span class="icon">🍂</span><h3>Tobacco &amp; Pouches</h3><p>Traditional tobacco products and nicotine pouches where legally permitted — top-selling SKUs kept behind the counter, called out on the menu board.</p><span class="tagline">Menu board</span></div>
+        <div class="card reveal d2"><span class="icon">🔌</span><h3>Accessories</h3><p>Chargers, cables, battery cases, and lighters at the counter — under ten bucks, zero slowdown.</p><span class="tagline">Counter grabs</span></div>
+      </div>
+      <p class="reveal" style="margin-top:2.5rem;color:var(--muted);font-size:.85rem">
+        In-store sales only. No online ordering. All purchases require valid government-issued ID — 21+, no exceptions.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== ABOUT / QUICK SHOPPING ========== -->
+  <section id="about">
+    <div class="smoke-layer" data-smoke="5"></div>
+    <div class="inner">
+      <div class="kicker reveal">The concept</div>
+      <h2 class="reveal">Built for the <span class="accent">5-minute</span> stop</h2>
+      <p class="lede reveal d1">Most vape shops are built for browsing. We're built for your commute. Every square foot of this store answers one question: does it get you back to your day faster?</p>
+      <div class="steps">
+        <div class="step reveal"><div class="n">01</div><div><h3>Walk in, see your product</h3><p>The express wall — our fifty best sellers — faces the door at eye level with the price on every tag. Regulars spot their product within three seconds of entering.</p></div></div>
+        <div class="step reveal"><div class="n">02</div><div><h3>The line moves</h3><p>Two registers, a menu board you can order from while you wait, and staff trained to remember "the usual." When the line hits three, the second lane opens.</p></div></div>
+        <div class="step reveal"><div class="n">03</div><div><h3>ID scan, tap, gone</h3><p>Every restricted sale gets an ID scan — it takes seconds, keeps everything legal, and keeps us open. Tap to pay and you're out the door.</p></div></div>
+        <div class="step reveal"><div class="n">04</div><div><h3>Always in stock</h3><p>Our promise: the top fifty never stock out. We'd rather carry 250 products you can count on than 2,000 you can't.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOURS & LOCATION ========== -->
+  <section id="hours">
+    <div class="smoke-layer" data-smoke="4"></div>
+    <div class="inner">
+      <div class="kicker reveal">Find us</div>
+      <h2 class="reveal">Hours &amp; Location</h2>
+      <span class="placeholder-flag reveal">Placeholder — final address &amp; hours coming soon</span>
+      <div class="loc-grid">
+        <div class="reveal d1">
+          <h3>Store hours</h3>
+          <table class="hours" id="hours-table">
+            <tr data-day="1"><td>Monday</td><td>7:00 AM – 10:00 PM</td></tr>
+            <tr data-day="2"><td>Tuesday</td><td>7:00 AM – 10:00 PM</td></tr>
+            <tr data-day="3"><td>Wednesday</td><td>7:00 AM – 10:00 PM</td></tr>
+            <tr data-day="4"><td>Thursday</td><td>7:00 AM – 10:00 PM</td></tr>
+            <tr data-day="5"><td>Friday</td><td>7:00 AM – 10:00 PM</td></tr>
+            <tr data-day="6"><td>Saturday</td><td>7:00 AM – 10:00 PM</td></tr>
+            <tr data-day="0"><td>Sunday</td><td>9:00 AM – 9:00 PM</td></tr>
+          </table>
+          <p style="color:var(--muted);font-size:.85rem;margin-top:1.2rem">Open before your shift. Open after it too.</p>
+        </div>
+        <div class="reveal d2">
+          <h3>Location</h3>
+          <p style="color:var(--muted);margin-bottom:1.2rem">
+            1234 Placeholder Rd, Suite 100<br>
+            Houston, TX 770XX<br>
+            <span style="font-size:.8rem;color:#5c5c66">(placeholder address — storefront parking at the door)</span>
+          </p>
+          <div class="map-stub">
+            <div class="map-pin">
+              <div class="pin"></div>
+              Map goes live when the doors do.<br>Houston, TX
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT ========== -->
+  <section id="contact">
+    <div class="smoke-layer" data-smoke="4"></div>
+    <div class="inner">
+      <div class="kicker reveal">Say hello</div>
+      <h2 class="reveal">Contact</h2>
+      <p class="lede reveal d1">Questions about stock, brands, or when we open? Reach out — a human answers.</p>
+      <ul class="contact-list reveal d2">
+        <li><span class="k">Phone</span><span class="v">(713) 555-0100 <em style="color:#5c5c66">(placeholder)</em></span></li>
+        <li><span class="k">Email</span><span class="v">hello@dashvapor.example <em style="color:#5c5c66">(placeholder)</em></span></li>
+        <li><span class="k">Instagram</span><span class="v">@dashvaporco <em style="color:#5c5c66">(placeholder)</em></span></li>
+        <li><span class="k">Wholesale</span><span class="v">Licensed distributors: reach us at the email above</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="inner">
+      <div><strong>WARNING:</strong> This product contains nicotine. Nicotine is an addictive chemical.</div>
+      <div>Sales restricted to adults of legal age (21+ in Texas; verified by government-issued ID at time of sale). We proudly ID everyone. Underage sales are never tolerated.</div>
+      <div>Products sold in-store only. We do not sell or ship products through this website.</div>
+      <div>© 2026 Dash Vapor Co. (placeholder name) · Houston, Texas · All rights reserved.</div>
+    </div>
+  </footer>
+
+</div><!-- /#site -->
+
+<!-- ================= MASCOT ================= -->
+<div id="mascot" aria-hidden="true">
+  <div class="flip">
+    <div class="mascot-puff"></div>
+    <svg viewBox="0 0 64 84" width="64" height="84">
+      <g class="mascot-body">
+        <!-- cigar body (upright little guy) -->
+        <rect x="20" y="6" width="24" height="52" rx="11" fill="#8a5a33"/>
+        <rect x="20" y="6" width="24" height="52" rx="11" fill="url(#shade)" opacity=".5"/>
+        <!-- wrapper leaf line -->
+        <path d="M20 30 q12 6 24 0" stroke="#6f4525" stroke-width="1.6" fill="none" opacity=".8"/>
+        <path d="M20 40 q12 6 24 0" stroke="#6f4525" stroke-width="1.6" fill="none" opacity=".6"/>
+        <!-- cigar band -->
+        <rect x="19" y="44" width="26" height="7" rx="3.5" fill="#e8b64c"/>
+        <rect x="27" y="44" width="10" height="7" fill="#c74e0a"/>
+        <circle cx="32" cy="47.5" r="2" fill="#fff" opacity=".9"/>
+        <!-- glowing ash tip -->
+        <ellipse class="ember-glow" cx="32" cy="7" rx="10" ry="4.5" fill="#ff7a29"/>
+        <ellipse cx="32" cy="6.2" rx="6" ry="2.6" fill="#ffc07a" opacity=".9"/>
+        <!-- eyes -->
+        <g>
+          <circle cx="26.5" cy="24" r="4.6" fill="#fff"/>
+          <circle cx="37.5" cy="24" r="4.6" fill="#fff"/>
+          <circle cx="27.8" cy="24.6" r="2.1" fill="#1a1a1f"/>
+          <circle cx="38.8" cy="24.6" r="2.1" fill="#1a1a1f"/>
+          <circle cx="28.5" cy="23.8" r=".7" fill="#fff"/>
+          <circle cx="39.5" cy="23.8" r=".7" fill="#fff"/>
+          <!-- eyelids (blink) -->
+          <rect class="eyelid" x="21.5" y="19.2" width="10" height="5" rx="2.5" fill="#8a5a33" style="transform-origin:26.5px 21px"/>
+          <rect class="eyelid" x="32.5" y="19.2" width="10" height="5" rx="2.5" fill="#8a5a33" style="transform-origin:37.5px 21px"/>
+        </g>
+        <!-- little smile -->
+        <path d="M28 33 q4 3.4 8 0" stroke="#3c2413" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <!-- arms -->
+        <path d="M20 38 q-6 2 -7 8" stroke="#8a5a33" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M44 38 q6 2 7 8" stroke="#8a5a33" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- legs + feet (walk cycle) -->
+      <g class="leg front" style="transform-origin:27px 56px">
+        <rect x="25" y="56" width="4.5" height="16" rx="2.2" fill="#6f4525"/>
+        <ellipse cx="29.5" cy="73.5" rx="6.5" ry="3.4" fill="#2a2a33"/>
+      </g>
+      <g class="leg back" style="transform-origin:37px 56px">
+        <rect x="35" y="56" width="4.5" height="16" rx="2.2" fill="#5c391e"/>
+        <ellipse cx="39.5" cy="73.5" rx="6.5" ry="3.4" fill="#1f1f27"/>
+      </g>
+      <defs>
+        <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#000" stop-opacity=".35"/>
+          <stop offset=".45" stop-color="#fff" stop-opacity=".12"/>
+          <stop offset="1" stop-color="#000" stop-opacity=".4"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ AGE GATE ============ */
+  var gate = document.getElementById('age-gate');
+  var site = document.getElementById('site');
+  var lockout = document.getElementById('lockout');
+  var mascot = document.getElementById('mascot');
+
+  function openSite(){
+    gate.classList.add('dismissed');
+    document.body.classList.remove('gated');
+    site.setAttribute('aria-hidden','false');
+    setTimeout(function(){ gate.remove(); }, 700);
+    initSmoke();
+    initReveals();
+    initMascot();
+    initNav();
+    markToday();
+  }
+
+  function lockSite(){
+    // Hard lockout: remove the entire site DOM and the gate itself so there is
+    // no UI path back without a full page reload.
+    try{ sessionStorage.removeItem('dv_age_ok'); }catch(e){}
+    site.remove();
+    mascot.remove();
+    gate.remove();
+    lockout.classList.add('active');
+    document.body.classList.add('gated');
+  }
+
+  var remembered = false;
+  try{ remembered = sessionStorage.getItem('dv_age_ok') === '1'; }catch(e){}
+
+  if(remembered){
+    openSite();
+  } else {
+    document.getElementById('gate-yes').addEventListener('click', function(){
+      try{ sessionStorage.setItem('dv_age_ok','1'); }catch(e){}
+      openSite();
+    });
+    document.getElementById('gate-no').addEventListener('click', lockSite);
+    // smoke inside the gate itself
+    spawnSmoke(document.getElementById('gate-smoke'), 7, true);
+  }
+
+  /* ============ SMOKE SYSTEM ============ */
+  function spawnSmoke(container, count, warmBias){
+    if(!container) return;
+    for(var i=0;i<count;i++){
+      var s = document.createElement('div');
+      s.className = 'smoke' + ((warmBias ? (i%2===0) : (i%3===0)) ? ' warm' : '');
+      var size = 180 + Math.random()*320;            // px
+      s.style.width = size+'px';
+      s.style.height = size*(0.55+Math.random()*0.4)+'px';
+      s.style.left = (Math.random()*90-15)+'%';
+      s.style.top = (Math.random()*85)+'%';
+      s.style.animationDuration = (26+Math.random()*30)+'s';
+      s.style.animationDelay = (-Math.random()*40)+'s'; // negative: mid-drift on load
+      container.appendChild(s);
+    }
+  }
+  function initSmoke(){
+    document.querySelectorAll('.smoke-layer[data-smoke]').forEach(function(layer){
+      spawnSmoke(layer, parseInt(layer.getAttribute('data-smoke'),10)||4, false);
+    });
+  }
+
+  /* ============ SCROLL REVEALS ============ */
+  function initReveals(){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  }
+
+  /* ============ NAV ACTIVE STATE ============ */
+  function initNav(){
+    var links = document.querySelectorAll('.nav-links a');
+    var map = {};
+    links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting && map[en.target.id]){
+          links.forEach(function(a){ a.classList.remove('active'); });
+          map[en.target.id].classList.add('active');
+        }
+      });
+    }, {rootMargin:'-40% 0px -55% 0px'});
+    document.querySelectorAll('section[id]').forEach(function(s){ io.observe(s); });
+  }
+
+  /* ============ HOURS: highlight today ============ */
+  function markToday(){
+    var t = document.querySelector('#hours-table tr[data-day="'+ new Date().getDay() +'"]');
+    if(t) t.classList.add('today');
+  }
+
+  /* ============ MASCOT: walks with scroll ============ */
+  function initMascot(){
+    if(!mascot || !mascot.parentNode) return;
+    var lastX = 30, idleTimer = null, shown = false;
+    var MARGIN = 20;
+
+    function targetX(){
+      var doc = document.documentElement;
+      var max = Math.max(1, doc.scrollHeight - window.innerHeight);
+      var p = Math.min(1, Math.max(0, window.scrollY / max));
+      // ping-pong: walks right for the first half of the page, back left after
+      var pp = p < .5 ? p*2 : (1-p)*2;
+      var range = window.innerWidth - mascot.offsetWidth - MARGIN*2;
+      return MARGIN + pp*range;
+    }
+
+    function place(walk){
+      var x = targetX();
+      if(Math.abs(x-lastX) > 1){
+        mascot.classList.toggle('face-left', x < lastX);
+        lastX = x;
+      }
+      mascot.style.transform = 'translateX('+x+'px)';
+      if(walk){
+        mascot.classList.add('walking');
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(function(){ mascot.classList.remove('walking'); }, 260);
+      }
+      if(!shown){ mascot.classList.add('visible'); shown = true; }
+    }
+
+    var ticking = false;
+    window.addEventListener('scroll', function(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){ place(true); ticking = false; });
+    }, {passive:true});
+    window.addEventListener('resize', function(){ place(false); });
+    place(false);
+  }
+})();
+</script>
+</body>
+</html>
