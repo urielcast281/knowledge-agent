@@ -51,7 +51,7 @@ Two caveats:
 
 ## If you do only three things this week
 
-(1) File the delinquent franchise reports on Webfile and request the tax clearance letter — everything else in this plan is gated behind an active LLC, and the clock on the 2–4 week process only starts when you file. (2) Email/call two commercial tenant-rep brokers who work small-shop retail in Houston and ask for 1,000–1,500 SF availability + asking rents in the three corridors named in Section 2 — real rent quotes will make or break the financial model. (3) Pull your credit reports and build the one-page "capital stack" table (card, limit, APR, promo end date) — before you spend a dollar, you need to know exactly how much runway you actually have and when the interest bombs go off.
+(1) File the delinquent franchise reports on Webfile and request the tax clearance letter — everything else in this plan is gated behind an active LLC, and the clock on the 2–4 week process only starts when you file. (2) Email/call two commercial tenant-rep brokers who work small-shop retail in Houston and ask for 1,000–1,500 SF availability + asking rents in the three corridors named in Section 2 — real rent quotes will make or break the financial model. (3) Start the capital plan (Section 7.0): pull your three credit reports, set a written monthly savings target, and open the one-page capital dashboard you'll update weekly — with $0 on hand today, capital formation is the critical path, and it starts with knowing your credit position and your savings rate, not with opening cards.
 
 ---
 
@@ -75,7 +75,7 @@ Become the default daily stop for commuters, shift workers, and daily vapers alo
 
 | Metric | Figure | Basis |
 |---|---|---|
-| Initial capital required | **$118,000** (base case; lean build $95K) | Bottom-up build in Section 7.1 **[EST]** |
+| Initial capital required | **$118,000** (base case; lean build $95K) — **currently $0 on hand: see Phase 0, Section 7.0** | Bottom-up build in Section 7.1 **[EST]** |
 | Projected Year 1 revenue | **$535,000** | Ramp from ~40 to ~85 transactions/day @ ~$22 avg ticket **[EST]**, Section 7.5 |
 | Projected break-even month | **Month 8** (base case) | Section 7.6 **[EST]** |
 | Key metric #1 | Average transaction time **< 3 min** (target), < 5 min (promise) | POS timestamps |
@@ -342,6 +342,29 @@ Aesthetic: dark, high-contrast, bold typography (the website in `website/` imple
 
 # 7. Funding and Financial Plan
 
+## 7.0 Phase 0 — Capital Formation (start here: current capital = $0)
+
+**Status update:** as of July 2026 there is no capital on hand. That doesn't kill the plan — it re-sequences it. The project for the next **6–12 months** is not opening a store; it is (a) building the capital stack while (b) completing every zero-cost workstream in this document so that the day the money exists, the launch clock starts at Week 6, not Week 0.
+
+**Why you can't shortcut this with new cards:** newly opened consumer cards typically approve at **$3–15K each [EST]**, and issuers throttle approvals after several applications in a short window (5/24-style rules). A realistic aggregate for a disciplined applicant over 6–12 months is **$25–50K [EST]** — enough for the lean build's inventory line, nowhere near the $95K lean total. Opening cards now also starts their 0% promo clocks *before* you can deploy the money — wasting the only good feature of card funding. **Rule: don't open a single card until you are ~3–6 months from a signed lease.**
+
+**The capital-formation ladder (work several rungs at once):**
+
+| Rung | Realistic amount **[EST]** | Timeline | Notes |
+|---|---|---|---|
+| Day-job savings on a written monthly target | $500–1,500/mo | Ongoing | The only capital with zero cost and zero approval odds. It also builds the bank statements every lender asks for |
+| CDFI microloan (e.g., LiftFund — Texas-based, Houston office; PeopleFund) | $10–50K | 1–3 mo application, apply ~when lease-ready | Startup-friendly, but **ask up front whether they exclude tobacco/vape businesses** — some CDFIs do. Don't burn an application without asking |
+| Friends/family promissory note | Varies | — | Properly papered (note, rate, schedule). Cheapest large-block capital most first-time owners ever get |
+| Credit cards (0% promo ladder, Section 7.3 rules) | $25–50K aggregate | Open 3–6 mo pre-lease | Cap at what a day job could service. This is the *top-up*, not the foundation |
+| Partner/investor with capital | Varies | — | Costs equity forever; use only if it's the difference between going and not going |
+| Side income aimed at the fund | Varies | — | Including the underrated option: **work part-time in a vape shop or c-store for 6 months** — paid market research that will change this plan more than any spreadsheet |
+
+**Gate rule (write it down, tell someone):** do not sign a lease, or open the first card, until you have **≥ $95K in committed capital** (cash + confirmed credit lines + signed notes), of which **≥ 2 months of operating cash (~$30K) is actual cash in a bank account**. Signing a lease with less isn't optimism; it's pre-ordering the Section 7.7 worst case.
+
+**What Phase 0 looks like in practice (total cost ≈ $300):** reinstate the LLC (~$125–300 — do it now anyway: it's cheap, it stops the penalty clock, and the permit cycle already started June 2026) → finish every $0 action item in Sections 2–6 (broker comps, competitor counts, distributor price lists, POS/processing quotes, credit prep, brand name lock) → replace every [EST] in this plan with a real quote → set the monthly savings target and track it on the same one-page dashboard as the (future) card ladder.
+
+**Credit prep during Phase 0 (free, compounds later):** pull all three bureau reports; dispute errors; pay utilization under ~10%; no new applications of any kind; keep the oldest accounts open. Every 20 points of score is worth thousands in approved limits and promo length when the ladder opens.
+
 ## 7.1 Startup costs (base case, 1,100 SF second-generation retail space) — all **[EST]** pending quotes
 
 | Item | Lean | Base | Notes |
@@ -373,7 +396,7 @@ Aesthetic: dark, high-contrast, bold typography (the website in `website/` imple
 
 ## 7.3 The credit-card funding section (read twice)
 
-You told me the launch is primarily credit-card funded. Here is the unvarnished version.
+The stated intent is a launch funded primarily on credit cards — and as of now, those cards don't exist yet (see Section 7.0 for why that means a 6–12 month capital-formation phase, not a card-application spree). This section governs how the card portion of the stack is used *when* it exists. Here is the unvarnished version.
 
 **The math that kills stores:** $100K at 26% APR = **$2,167/month in interest alone** — before a dollar of principal, rent, or inventory. That is close to the entire base-case pre-debt profit in Months 4–8. Minimum payments (~2–3% of balance ≈ $2,500–3,000/mo) are designed to keep you in debt, not get you out. If revenue ramps slower than plan (it usually does), the balance compounds while the store is still cash-hungry — that's the debt spiral: borrowing on Card B to pay Card A's minimum. Once you're there, the store may be operationally profitable and still bankrupt you personally.
 
@@ -454,7 +477,9 @@ Avg ticket $22 · transactions/day ramp: 40 (M1) → 55 (M3) → 70 (M6) → 85 
 
 ---
 
-# 9. Implementation Timeline (reinstatement → grand opening, ~5 months)
+# 9. Implementation Timeline (reinstatement → grand opening, ~5 months once funded)
+
+**Sequencing note (current capital = $0):** milestones 1–4 below are Phase 0 work — cheap or free, do them now. Milestone 5 is the **capital gate** from Section 7.0 (≥ $95K committed, ≥ ~$30K actual cash): the 5-month launch clock below starts only when that gate is passed, realistically **6–12 months out [EST]**. Everything before the gate compresses the launch; nothing before the gate should commit money.
 
 | # | Milestone | Window | Depends on | Notes |
 |---|---|---|---|---|
@@ -462,7 +487,7 @@ Avg ticket $22 · transactions/day ramp: 40 (M1) → 55 (M3) → 70 (M6) → 85 
 | 2 | Receive 05-377; file SOS Form 801 + $75 | Weeks 2–4 | 1 | Entity ACTIVE again |
 | 3 | Broker engaged; corridor scouting; competitor counts | Weeks 1–4 (parallel) | — | Allowed pre-reinstatement |
 | 4 | Financial model updated with real quotes (rent, insurance, processing, build-out) | Weeks 2–6 | 3 | Go/no-go checkpoint #1 |
-| 5 | Business bank account; capital stack finalized | Weeks 4–6 | 2 | Bank needs active SOS status |
+| 5 | **CAPITAL GATE** — ≥$95K committed, ≥~$30K cash (Sec. 7.0); business bank account open | Gate — see note above | 2 | Bank needs active SOS status; nothing below starts until this passes |
 | 6 | LOI → lease negotiation → **attorney review** → signing | Weeks 6–10 | 2, 4, 5 | PG burn-off + use clause + (try) regulatory out |
 | 7 | Sales tax permit; tobacco + e-cig retailer permits (Comptroller); city sign permit + CO | Weeks 10–12 | 6 (permits need the address) | Permits are per-location |
 | 8 | Build-out + signage + POS/security install | Weeks 10–16 | 6 | 2nd-gen space keeps this ~4–6 wks |
