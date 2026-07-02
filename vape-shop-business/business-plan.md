@@ -365,6 +365,22 @@ Aesthetic: dark, high-contrast, bold typography (the website in `website/` imple
 
 **Credit prep during Phase 0 (free, compounds later):** pull all three bureau reports; dispute errors; pay utilization under ~10%; no new applications of any kind; keep the oldest accounts open. Every 20 points of score is worth thousands in approved limits and promo length when the ladder opens.
 
+### 7.0.1 Alternative vehicles when no friends/family capital exists (current constraint: ~$200/mo savings capacity)
+
+With ~$50/week of free cash and no family note available, the from-scratch $95K build is the hardest possible vehicle for this goal. These are the alternative paths to owning a vape retail business, ranked by recommendation — they are not mutually exclusive:
+
+| Path | What it is | Capital gate **[EST]** | Realistic timeline **[EST]** | Key risk |
+|---|---|---|---|---|
+| **A — Earn-in (START NOW)** | Part-time/full-time job at a vape shop or c-store: +$1,000–2,500/mo income (savings jump to $500–900/mo), inside knowledge, and deal flow — you meet the burned-out owners and capital-rich operators every other path needs | $0 | Start within 30 days | Only that it feels slower than it is; it accelerates every other path |
+| **B — Buy, don't build (seller-financed acquisition)** | Buy an existing small shop; sellers at this size routinely carry the note (banks won't finance the buyer). ~$40–80K price, 20–30% down → real gate is $12–25K, and you inherit lease, permits, fixtures, customers | $12–25K | 24–36 mo (faster with Path A income) | **Fictional financials.** Verify via direct POS reports, in-store transaction watching, Comptroller permit status; walk away from any shelf full of SB 2024-illegal product |
+| **C — Shop-in-shop counter (the Quick-Shopping MVP)** | Sublease counter space in a complementary high-traffic business (car wash, barbershop, indie c-store). Own permits at that address (per-location: tobacco + e-cig + sales tax), ~$8–15K inventory, small POS + ID scanner, written host agreement | $15–20K | 18–30 mo | Host-relationship instability; compliance failures land on YOUR permits — the ID discipline must be yours, not the host's |
+| **D — Capital partner** | Operating-partner structure: you bring plan/labor/licenses, partner brings $60–100K for 40–60% equity. Found via adjacent-business owners, distributor reps, industry contacts (Path A again). Lawyer-papered or not done | $0–5K | Opportunistic | Equity is forever; partner disputes kill small businesses — paper everything |
+| **E — Pure grind (backstop only)** | $200/mo + eventual CDFI microloan + small card ladder ≈ $60–75K | — | 4–5 yrs | Regulatory landscape will shift at least once over that horizon; inflation erodes the target. Run only as the default while A→C→B executes |
+
+**Recommended sequence:** Path A within 30 days → Path C as the first ownership milestone (~18–30 months) → Path B as the opportunistic upgrade throughout (if the right shop surfaces cheap with seller paper while you're inside the industry, jump). Reinstate the LLC now regardless (~$300; every path requires it). The original from-scratch flagship in this plan becomes the **store #2 playbook**, funded by the counter's or acquired shop's cash flow — not by credit cards against a $200/mo budget. On that budget, high-APR debt has no margin for error: the Section 7.3 hard-cap rule effectively means the card ladder plays almost no role until income rises.
+
+**Action items:** ☐ Apply to 3–5 vape shop / c-store jobs this week (evenings/weekends if keeping current job) ☐ Reinstate the LLC ☐ Open a dedicated savings account, automate $50/week ☐ Start a list of potential Path C host businesses along the Section 2.3 corridors ☐ Set a saved search for Houston smoke/vape shop listings on BizBuySell-type marketplaces to learn asking prices (education now, buying later)
+
 ## 7.1 Startup costs (base case, 1,100 SF second-generation retail space) — all **[EST]** pending quotes
 
 | Item | Lean | Base | Notes |
