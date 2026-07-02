@@ -93,13 +93,57 @@
   .lede{color:var(--muted);font-size:clamp(1rem,2vw,1.25rem);max-width:44rem}
   .accent{color:var(--ember)}
 
-  /* ---------- Hero ---------- */
+  /* ---------- Hero (slider) ---------- */
   #home{
     min-height:calc(100vh - 120px);
-    display:flex;align-items:center;
+    display:flex;align-items:stretch;
     background:
       radial-gradient(1200px 600px at 75% 20%, rgba(255,122,41,.07), transparent 60%),
       var(--bg);
+    padding-left:0;padding-right:0;
+  }
+  .slider{position:relative;z-index:3;width:100%;display:flex;flex-direction:column}
+  .slider-track{
+    display:flex;flex:1;
+    transition:transform .65s cubic-bezier(.25,.8,.25,1);
+    will-change:transform;
+  }
+  .slide{
+    min-width:100%;display:flex;align-items:center;
+    padding:0 clamp(3.4rem,8vw,6.5rem);
+  }
+  .slide .inner{width:100%}
+  .slide-kicker{
+    display:inline-block;border:1px solid rgba(255,122,41,.5);border-radius:999px;
+    padding:.4rem 1.1rem;font-size:.72rem;font-weight:800;letter-spacing:.25em;
+    text-transform:uppercase;color:var(--ember);margin-bottom:2rem;
+    background:rgba(255,122,41,.07);
+  }
+  .slide .fine{color:#5c5c66;font-size:.78rem;margin-top:1.6rem}
+  .slider-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:6;
+    width:52px;height:52px;border-radius:50%;cursor:pointer;
+    background:rgba(13,13,20,.65);border:1px solid rgba(255,255,255,.18);
+    color:var(--ink);font-size:1.3rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .2s,color .2s,background .2s;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  }
+  .slider-arrow:hover{border-color:var(--ember);color:var(--ember)}
+  .slider-arrow.prev{left:clamp(.5rem,1.5vw,1.6rem)}
+  .slider-arrow.next{right:clamp(.5rem,1.5vw,1.6rem)}
+  .slider-dots{
+    display:flex;gap:.7rem;justify-content:center;
+    padding:1.6rem 0 2.2rem;position:relative;z-index:6;
+  }
+  .slider-dots button{
+    width:34px;height:4px;border-radius:2px;border:none;cursor:pointer;
+    background:rgba(255,255,255,.18);transition:background .3s;padding:0;
+  }
+  .slider-dots button.active{background:var(--ember)}
+  @media (max-width:640px){
+    .slider-arrow{width:42px;height:42px;font-size:1.1rem}
+    .slide{padding:0 clamp(2.6rem,12vw,3.4rem)}
   }
   .hero-tag{
     display:inline-block;border:1px solid var(--line);border-radius:999px;
@@ -369,25 +413,71 @@
     </div>
   </nav>
 
-  <!-- ========== HOME ========== -->
+  <!-- ========== HOME (hero slider) ==========
+       TO EDIT WEEKLY SLIDES: each <div class="slide"> below is one pane.
+       Add/remove/edit slides freely — arrows, dots, and auto-rotate adapt
+       automatically. Slide 1 is the brand hero; keep it first.          -->
   <section id="home">
     <div class="smoke-layer" data-smoke="6"></div>
-    <div class="inner">
-      <span class="hero-tag reveal">Houston, Texas &nbsp;·&nbsp; 21+ Only</span>
-      <h1 class="reveal d1">In. Out.<br>Gone in <span class="accent">five.</span></h1>
-      <p class="lede reveal d2" style="margin-top:1.6rem">
-        Dash Vapor Co. is Houston's grab-and-go vape &amp; tobacco shop. Your product, front and center.
-        A line that moves. Out the door in under five minutes — every visit.
-      </p>
-      <div class="hero-cta reveal d3">
-        <a class="btn btn-primary" href="#products">Browse Products</a>
-        <a class="btn btn-ghost" href="#about">Why We're Fast</a>
+    <div class="slider" id="hero-slider">
+      <div class="slider-track" id="hero-track">
+
+        <!-- SLIDE 1 — brand hero -->
+        <div class="slide">
+          <div class="inner">
+            <span class="hero-tag reveal">Houston, Texas &nbsp;·&nbsp; 21+ Only</span>
+            <h1 class="reveal d1">In. Out.<br>Gone in <span class="accent">five.</span></h1>
+            <p class="lede reveal d2" style="margin-top:1.6rem">
+              Dash Vapor Co. is Houston's grab-and-go vape &amp; tobacco shop. Your product, front and center.
+              A line that moves. Out the door in under five minutes — every visit.
+            </p>
+            <div class="hero-cta reveal d3">
+              <a class="btn btn-primary" href="#products">Browse Products</a>
+              <a class="btn btn-ghost" href="#about">Why We're Fast</a>
+            </div>
+            <div class="hero-stats reveal d3">
+              <div class="stat"><div class="num">&lt;5<span class="accent">min</span></div><div class="lbl">Every visit</div></div>
+              <div class="stat"><div class="num">Top 50</div><div class="lbl">Always in stock</div></div>
+              <div class="stat"><div class="num">100<span class="accent">%</span></div><div class="lbl">ID verified</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2 — weekly deal (EXAMPLE — edit text each week) -->
+        <div class="slide">
+          <div class="inner">
+            <span class="slide-kicker">This week's deal</span>
+            <h1>2 for <span class="accent">$25</span><br>on disposables</h1>
+            <p class="lede" style="margin-top:1.6rem">
+              Any two disposables from the express wall, all week long. In stock, at the door, no digging.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#products">See What's In Stock</a>
+              <a class="btn btn-ghost" href="#hours">Hours &amp; Location</a>
+            </div>
+            <p class="fine">Example promotion (placeholder). In-store only · 21+ with valid ID · while supplies last.</p>
+          </div>
+        </div>
+
+        <!-- SLIDE 3 — store announcement (EXAMPLE — edit or remove) -->
+        <div class="slide">
+          <div class="inner">
+            <span class="slide-kicker">Store notice</span>
+            <h1>Closed <span class="accent">July&nbsp;4th</span></h1>
+            <p class="lede" style="margin-top:1.6rem">
+              We're closed Saturday, July 4 so the crew can enjoy the holiday. Back to normal hours Sunday at 9 AM — stock up Friday.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-ghost" href="#hours">See Regular Hours</a>
+            </div>
+            <p class="fine">Example announcement (placeholder date).</p>
+          </div>
+        </div>
+
       </div>
-      <div class="hero-stats reveal d3">
-        <div class="stat"><div class="num">&lt;5<span class="accent">min</span></div><div class="lbl">Every visit</div></div>
-        <div class="stat"><div class="num">Top 50</div><div class="lbl">Always in stock</div></div>
-        <div class="stat"><div class="num">100<span class="accent">%</span></div><div class="lbl">ID verified</div></div>
-      </div>
+      <button class="slider-arrow prev" id="hero-prev" type="button" aria-label="Previous slide">&#10094;</button>
+      <button class="slider-arrow next" id="hero-next" type="button" aria-label="Next slide">&#10095;</button>
+      <div class="slider-dots" id="hero-dots" role="tablist" aria-label="Hero slides"></div>
     </div>
   </section>
 
@@ -571,6 +661,7 @@
     initMascot();
     initNav();
     markToday();
+    initSlider();
   }
 
   function lockSite(){
@@ -651,6 +742,72 @@
   function markToday(){
     var t = document.querySelector('#hours-table tr[data-day="'+ new Date().getDay() +'"]');
     if(t) t.classList.add('today');
+  }
+
+  /* ============ HERO SLIDER ============ */
+  var AUTO_ROTATE_MS = 7000; // set to 0 to disable auto-rotation
+  function initSlider(){
+    var slider = document.getElementById('hero-slider');
+    if(!slider) return;
+    var track = document.getElementById('hero-track');
+    var slides = track.children.length;
+    var dotsWrap = document.getElementById('hero-dots');
+    var idx = 0, timer = null;
+
+    // build dots to match however many slides exist
+    var dots = [];
+    for(var i=0;i<slides;i++){
+      (function(i){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label','Go to slide '+(i+1));
+        b.addEventListener('click', function(){ go(i, true); });
+        dotsWrap.appendChild(b);
+        dots.push(b);
+      })(i);
+    }
+
+    function go(i, manual){
+      idx = (i + slides) % slides;
+      track.style.transform = 'translateX(-' + (idx*100) + '%)';
+      dots.forEach(function(d,k){ d.classList.toggle('active', k===idx); });
+      if(manual) restart();
+    }
+    function next(){ go(idx+1); }
+    function restart(){
+      if(timer) clearInterval(timer);
+      if(AUTO_ROTATE_MS > 0 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        timer = setInterval(next, AUTO_ROTATE_MS);
+      }
+    }
+
+    document.getElementById('hero-prev').addEventListener('click', function(){ go(idx-1, true); });
+    document.getElementById('hero-next').addEventListener('click', function(){ go(idx+1, true); });
+
+    // pause while hovered
+    slider.addEventListener('mouseenter', function(){ if(timer) clearInterval(timer); });
+    slider.addEventListener('mouseleave', restart);
+
+    // touch swipe
+    var startX = null;
+    slider.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, {passive:true});
+    slider.addEventListener('touchend', function(e){
+      if(startX === null) return;
+      var dx = e.changedTouches[0].clientX - startX;
+      if(Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1), true);
+      startX = null;
+    }, {passive:true});
+
+    // keyboard arrows when the hero is on screen
+    window.addEventListener('keydown', function(e){
+      var r = slider.getBoundingClientRect();
+      if(r.bottom < 100 || r.top > window.innerHeight) return;
+      if(e.key === 'ArrowRight') go(idx+1, true);
+      if(e.key === 'ArrowLeft') go(idx-1, true);
+    });
+
+    go(0);
+    restart();
   }
 
   /* ============ MASCOT: walks with scroll ============ */
