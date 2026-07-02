@@ -95,12 +95,12 @@
 
   /* ---------- Hero (slider) ---------- */
   #home{
-    min-height:calc(100vh - 120px);
+    /* height follows the slide content — no dead space above the fold */
     display:flex;align-items:stretch;
     background:
       radial-gradient(1200px 600px at 75% 20%, rgba(255,122,41,.07), transparent 60%),
       var(--bg);
-    padding-left:0;padding-right:0;
+    padding:0;
   }
   .slider{position:relative;z-index:3;width:100%;display:flex;flex-direction:column}
   .slider-track{
@@ -110,7 +110,7 @@
   }
   .slide{
     min-width:100%;display:flex;align-items:center;
-    padding:0 clamp(3.4rem,8vw,6.5rem);
+    padding:clamp(2.2rem,4.5vh,3.5rem) clamp(3.4rem,8vw,6.5rem) 1rem;
   }
   .slide .inner{width:100%}
   .slide-kicker{
@@ -134,7 +134,7 @@
   .slider-arrow.next{right:clamp(.5rem,1.5vw,1.6rem)}
   .slider-dots{
     display:flex;gap:.7rem;justify-content:center;
-    padding:1.6rem 0 2.2rem;position:relative;z-index:6;
+    padding:1.2rem 0 1.8rem;position:relative;z-index:6;
   }
   .slider-dots button{
     width:34px;height:4px;border-radius:2px;border:none;cursor:pointer;
@@ -160,7 +160,7 @@
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,122,41,.35)}
   .btn-ghost{border:1px solid rgba(255,255,255,.25);color:var(--ink)}
   .btn-ghost:hover{border-color:var(--ember);color:var(--ember)}
-  .hero-stats{display:flex;gap:clamp(1.5rem,5vw,4rem);margin-top:4rem;flex-wrap:wrap}
+  .hero-stats{display:flex;gap:clamp(1.5rem,5vw,4rem);margin-top:2.8rem;flex-wrap:wrap}
   .stat .num{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em}
   .stat .lbl{color:var(--muted);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-top:.2rem}
 
@@ -271,6 +271,147 @@
   }
   footer .inner{display:grid;gap:1.2rem}
   footer strong{color:var(--ink)}
+
+  /* ============================================================
+     SHOP — order-for-pickup system (pay at pickup, ID at handoff)
+     ============================================================ */
+  .cart-btn{
+    position:relative;display:flex;align-items:center;gap:.5rem;cursor:pointer;
+    background:transparent;border:1px solid rgba(255,255,255,.25);border-radius:3px;
+    color:var(--ink);font:inherit;font-size:.72rem;font-weight:800;
+    letter-spacing:.16em;text-transform:uppercase;padding:.55rem 1rem;
+    transition:border-color .2s,color .2s;
+  }
+  .cart-btn:hover{border-color:var(--ember);color:var(--ember)}
+  .cart-count{
+    background:var(--ember);color:#0a0a0a;border-radius:999px;
+    font-size:.7rem;font-weight:900;min-width:1.35rem;height:1.35rem;
+    display:inline-flex;align-items:center;justify-content:center;padding:0 .3rem;
+  }
+  .pickup-banner{
+    display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem;
+  }
+  .pickup-pill{
+    display:flex;align-items:center;gap:.6rem;border:1px solid var(--line);
+    border-radius:999px;padding:.6rem 1.2rem;font-size:.78rem;color:var(--muted);
+    background:rgba(255,255,255,.02);
+  }
+  .pickup-pill b{color:var(--ink);letter-spacing:.05em}
+  .shop-note{
+    margin-top:3.4rem;display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;
+  }
+  .shop-grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-top:1.6rem}
+  .product{
+    background:var(--bg-3);border:1px solid var(--line);border-radius:6px;
+    padding:1.4rem 1.3rem;display:flex;flex-direction:column;gap:.55rem;
+    transition:transform .2s,border-color .2s;
+  }
+  .product:hover{transform:translateY(-3px);border-color:rgba(255,122,41,.4)}
+  .product .cat{
+    font-size:.62rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ember);
+  }
+  .product .pname{font-weight:700;font-size:.95rem;line-height:1.35}
+  .product .price{font-size:1.15rem;font-weight:900;margin-top:auto}
+  .product .add{
+    margin-top:.5rem;background:var(--ember);border:none;border-radius:3px;color:#0a0a0a;
+    font:inherit;font-weight:800;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    padding:.7rem;cursor:pointer;transition:transform .15s,box-shadow .2s;
+  }
+  .product .add:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(255,122,41,.3)}
+  .product .add.added{background:#2f9e5f;color:#fff}
+
+  /* cart drawer */
+  #cart-overlay{
+    position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);
+    opacity:0;pointer-events:none;transition:opacity .3s;
+  }
+  #cart-overlay.open{opacity:1;pointer-events:auto}
+  #cart-drawer{
+    position:fixed;top:0;right:0;bottom:0;z-index:90;width:min(420px,94vw);
+    background:var(--bg-2);border-left:1px solid var(--line);
+    transform:translateX(102%);transition:transform .35s cubic-bezier(.25,.8,.25,1);
+    display:flex;flex-direction:column;
+  }
+  #cart-drawer.open{transform:none}
+  .drawer-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.3rem 1.4rem;border-bottom:1px solid var(--line);
+  }
+  .drawer-head h3{margin:0}
+  .drawer-close{background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;line-height:1}
+  .drawer-close:hover{color:var(--ember)}
+  .cart-items{flex:1;overflow-y:auto;padding:1rem 1.4rem}
+  .cart-empty{color:var(--muted);text-align:center;padding:3rem 1rem;font-size:.9rem}
+  .cart-item{
+    display:grid;grid-template-columns:1fr auto;gap:.3rem .8rem;
+    padding:.9rem 0;border-bottom:1px solid var(--line);font-size:.88rem;
+  }
+  .cart-item .nm{font-weight:700}
+  .cart-item .ln-price{font-weight:800;text-align:right}
+  .cart-item .qty{display:flex;align-items:center;gap:.6rem;color:var(--muted)}
+  .qty button{
+    width:24px;height:24px;border-radius:3px;border:1px solid var(--line);
+    background:transparent;color:var(--ink);cursor:pointer;font-weight:800;line-height:1;
+  }
+  .qty button:hover{border-color:var(--ember);color:var(--ember)}
+  .cart-item .rm{background:none;border:none;color:#777;cursor:pointer;font-size:.72rem;text-align:right;letter-spacing:.1em;text-transform:uppercase}
+  .cart-item .rm:hover{color:#e5484d}
+  .drawer-foot{padding:1.2rem 1.4rem;border-top:1px solid var(--line)}
+  .subtotal-row{display:flex;justify-content:space-between;font-weight:900;font-size:1.05rem;margin-bottom:.4rem}
+  .drawer-foot .fine{color:#5c5c66;font-size:.72rem;margin-bottom:1rem}
+  .btn-block{display:block;width:100%;text-align:center;border:none;cursor:pointer;font:inherit}
+
+  /* checkout modal */
+  #checkout{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    background:rgba(4,4,8,.8);padding:1rem;
+  }
+  #checkout.open{display:flex}
+  .checkout-card{
+    width:min(560px,100%);max-height:92vh;overflow-y:auto;
+    background:var(--bg-2);border:1px solid rgba(255,255,255,.12);border-radius:10px;
+    padding:clamp(1.6rem,4vw,2.4rem);
+  }
+  .checkout-card h3{font-size:1.3rem;margin-bottom:.4rem}
+  .checkout-card .sub{color:var(--muted);font-size:.85rem;margin-bottom:1.6rem}
+  .field{margin-bottom:1.1rem}
+  .field label{display:block;font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
+  .field input,.field select,.field textarea{
+    width:100%;background:var(--bg-3);border:1px solid var(--line);border-radius:4px;
+    color:var(--ink);font:inherit;font-size:.95rem;padding:.75rem .9rem;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--ember)}
+  .field .err{color:#e5484d;font-size:.75rem;margin-top:.3rem;display:none}
+  .field.invalid .err{display:block}
+  .field.invalid input{border-color:#e5484d}
+  .pickup-choice{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.1rem}
+  .pickup-choice label{
+    border:1px solid var(--line);border-radius:6px;padding:1rem;cursor:pointer;
+    display:flex;flex-direction:column;gap:.25rem;transition:border-color .2s,background .2s;
+  }
+  .pickup-choice input{display:none}
+  .pickup-choice label b{font-size:.85rem;letter-spacing:.05em;text-transform:uppercase}
+  .pickup-choice label span{color:var(--muted);font-size:.75rem}
+  .pickup-choice label.sel{border-color:var(--ember);background:rgba(255,122,41,.07)}
+  #curbside-fields{display:none}
+  #curbside-fields.show{display:block}
+  .id-notice{
+    border:1px solid rgba(255,122,41,.45);background:rgba(255,122,41,.07);border-radius:6px;
+    padding:.9rem 1rem;font-size:.8rem;color:var(--ink);margin:1.2rem 0 1.4rem;line-height:1.5;
+  }
+  .order-summary{border-top:1px solid var(--line);margin-top:.4rem;padding-top:1rem;font-size:.85rem;color:var(--muted)}
+  .order-summary .row{display:flex;justify-content:space-between;padding:.15rem 0}
+  .order-summary .row.total{color:var(--ink);font-weight:900;font-size:1rem;border-top:1px solid var(--line);margin-top:.5rem;padding-top:.6rem}
+  #confirm-panel{display:none;text-align:center;padding:1rem 0}
+  #confirm-panel.show{display:block}
+  #confirm-panel .big{font-size:2.4rem;margin:.6rem 0}
+  #confirm-panel .ordno{color:var(--ember);font-weight:900;letter-spacing:.1em}
+  .demo-flag{
+    display:inline-block;background:rgba(255,122,41,.1);border:1px dashed var(--ember);
+    color:var(--ember);font-size:.65rem;font-weight:800;letter-spacing:.16em;
+    text-transform:uppercase;padding:.35rem .8rem;border-radius:3px;
+  }
 
   /* ============================================================
      MASCOT — “Stogie”, the cigar guy. Fixed to viewport bottom,
@@ -411,6 +552,9 @@
       <a href="#hours">Hours &amp; Location</a>
       <a href="#contact">Contact</a>
     </div>
+    <button class="cart-btn" id="cart-open" type="button" aria-label="Open cart">
+      Pickup Order <span class="cart-count" id="cart-count">0</span>
+    </button>
   </nav>
 
   <!-- ========== HOME (hero slider) ==========
@@ -496,8 +640,23 @@
         <div class="card reveal d1"><span class="icon">🍂</span><h3>Tobacco &amp; Pouches</h3><p>Traditional tobacco products and nicotine pouches where legally permitted — top-selling SKUs kept behind the counter, called out on the menu board.</p><span class="tagline">Menu board</span></div>
         <div class="card reveal d2"><span class="icon">🔌</span><h3>Accessories</h3><p>Chargers, cables, battery cases, and lighters at the counter — under ten bucks, zero slowdown.</p><span class="tagline">Counter grabs</span></div>
       </div>
+      <!-- ===== ORDER FOR PICKUP =====
+           TO EDIT THE CATALOG: products live in the PRODUCTS array in the
+           script at the bottom of this file — name, category, price. -->
+      <div class="pickup-banner reveal">
+        <div class="pickup-pill">🛍️ <span><b>Order ahead</b> — skip the line entirely</span></div>
+        <div class="pickup-pill">🏪 <span><b>In-store pickup</b> — grab it at the counter</span></div>
+        <div class="pickup-pill">🚗 <span><b>Curbside</b> — we bring it to your car</span></div>
+        <div class="pickup-pill">🪪 <span><b>ID checked at pickup</b> — 21+, every order</span></div>
+      </div>
+      <div class="shop-note reveal">
+        <h3 style="margin:0">Order for pickup</h3>
+        <span class="demo-flag">Sample catalog — placeholder products &amp; prices</span>
+      </div>
+      <div class="shop-grid" id="shop-grid"><!-- rendered from PRODUCTS array --></div>
       <p class="reveal" style="margin-top:2.5rem;color:var(--muted);font-size:.85rem">
-        In-store sales only. No online ordering. All purchases require valid government-issued ID — 21+, no exceptions.
+        Pay at pickup — nothing is charged online. Every order requires a valid government-issued photo ID (21+)
+        scanned at handoff, in-store or curbside. No ID, no sale, no exceptions. Pickup only; we do not ship.
       </p>
     </div>
   </section>
@@ -582,6 +741,93 @@
     </div>
   </footer>
 
+<!-- ================= CART DRAWER ================= -->
+<div id="cart-overlay"></div>
+<aside id="cart-drawer" aria-label="Pickup order cart">
+  <div class="drawer-head">
+    <h3>Your Pickup Order</h3>
+    <button class="drawer-close" id="cart-close" type="button" aria-label="Close cart">&times;</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="drawer-foot">
+    <div class="subtotal-row"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div>
+    <p class="fine">Sales tax added at pickup. Pay at pickup — card or cash. ID (21+) scanned at handoff.</p>
+    <button class="btn btn-primary btn-block" id="to-checkout" type="button">Checkout — Pay at Pickup</button>
+  </div>
+</aside>
+
+<!-- ================= CHECKOUT MODAL ================= -->
+<div id="checkout" role="dialog" aria-modal="true" aria-labelledby="co-title">
+  <div class="checkout-card">
+    <div id="checkout-form-panel">
+      <h3 id="co-title">Pickup details</h3>
+      <p class="sub">Tell us who's coming and how you want it. We'll have it ready.</p>
+
+      <div class="pickup-choice" id="pickup-choice">
+        <label class="sel"><input type="radio" name="pickup" value="in-store" checked>
+          <b>🏪 In-store</b><span>Skip the shelf — straight to the counter</span></label>
+        <label><input type="radio" name="pickup" value="curbside">
+          <b>🚗 Curbside</b><span>Park out front — we come to you</span></label>
+      </div>
+
+      <div class="field" id="f-name">
+        <label for="co-name">Name</label>
+        <input id="co-name" type="text" autocomplete="name" placeholder="First name + last initial">
+        <div class="err">Please enter a name for the order.</div>
+      </div>
+      <div class="field" id="f-phone">
+        <label for="co-phone">Mobile number</label>
+        <input id="co-phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(713) 555-0100">
+        <div class="err">Please enter a valid phone number — we text you when it's ready.</div>
+      </div>
+
+      <div id="curbside-fields">
+        <div class="field">
+          <label for="co-car">Vehicle (color, make, model)</label>
+          <input id="co-car" type="text" placeholder="e.g., Silver Toyota Camry">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="co-time">Pickup time</label>
+        <select id="co-time">
+          <option>ASAP (ready in ~10 min)</option>
+          <option>In 30 minutes</option>
+          <option>In 1 hour</option>
+          <option>Later today — we'll text to confirm</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="co-notes">Notes (optional)</label>
+        <textarea id="co-notes" rows="2" placeholder="Anything we should know"></textarea>
+      </div>
+
+      <div class="id-notice">
+        🪪 <strong>Bring your ID.</strong> A valid government-issued photo ID (21+) is scanned before
+        handoff on every order — in-store and curbside, no exceptions. Payment (card or cash) is taken
+        at pickup; nothing is charged online. Orders not picked up by close are restocked.
+      </div>
+
+      <div class="order-summary" id="co-summary"></div>
+
+      <div style="display:flex;gap:.8rem;margin-top:1.4rem">
+        <button class="btn btn-primary btn-block" id="place-order" type="button" style="flex:1">Place Pickup Order</button>
+        <button class="btn btn-ghost" id="co-cancel" type="button">Back</button>
+      </div>
+      <p style="margin-top:1rem;text-align:center"><span class="demo-flag">Demo mode — orders aren't transmitted yet; connect POS/email before launch</span></p>
+    </div>
+
+    <div id="confirm-panel">
+      <div class="kicker">Order placed</div>
+      <div class="big">🛍️</div>
+      <h3>See you soon!</h3>
+      <p class="sub" id="confirm-msg"></p>
+      <p class="ordno" id="confirm-no"></p>
+      <button class="btn btn-primary" id="confirm-done" type="button" style="margin-top:1.4rem">Done</button>
+    </div>
+  </div>
+</div>
+
 </div><!-- /#site -->
 
 <!-- ================= MASCOT ================= -->
@@ -662,6 +908,7 @@
     initNav();
     markToday();
     initSlider();
+    initShop();
   }
 
   function lockSite(){
@@ -798,8 +1045,9 @@
       startX = null;
     }, {passive:true});
 
-    // keyboard arrows when the hero is on screen
+    // keyboard arrows when the hero is on screen (not while typing)
     window.addEventListener('keydown', function(e){
+      if(e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
       var r = slider.getBoundingClientRect();
       if(r.bottom < 100 || r.top > window.innerHeight) return;
       if(e.key === 'ArrowRight') go(idx+1, true);
@@ -808,6 +1056,165 @@
 
     go(0);
     restart();
+  }
+
+  /* ============ SHOP: order-for-pickup ============
+     EDIT THE CATALOG HERE — id must be unique; price in dollars. */
+  var PRODUCTS = [
+    {id:'d1', cat:'Disposables',  name:'Sample Disposable — Frost Mint (5%)',      price:17.99},
+    {id:'d2', cat:'Disposables',  name:'Sample Disposable — Mango Ice (5%)',       price:16.99},
+    {id:'d3', cat:'Disposables',  name:'Sample Disposable — Classic Tobacco (5%)', price:16.99},
+    {id:'p1', cat:'Pods',         name:'Sample Pod Pack — Tobacco (4-ct)',         price:21.99},
+    {id:'p2', cat:'Pods',         name:'Sample Pod Pack — Menthol (4-ct)',         price:21.99},
+    {id:'p3', cat:'Pods',         name:'Sample Pod Device Kit',                    price:24.99},
+    {id:'e1', cat:'E-Liquid',     name:'Sample Nic Salt 30mL — Berry (35mg)',      price:14.99},
+    {id:'e2', cat:'E-Liquid',     name:'Sample E-Liquid 60mL — Custard (6mg)',     price:18.99},
+    {id:'m1', cat:'Hardware',     name:'Sample Coils — 5 Pack',                    price:15.99},
+    {id:'t1', cat:'Pouches',      name:'Sample Nicotine Pouches — Mint (6mg)',     price:5.49},
+    {id:'a1', cat:'Accessories',  name:'USB-C Fast Charger',                       price:7.99},
+    {id:'a2', cat:'Accessories',  name:'Battery Travel Case',                      price:4.99}
+  ];
+  var cart = {}; // id -> qty
+  try{ cart = JSON.parse(localStorage.getItem('dv_cart')||'{}') || {}; }catch(e){ cart = {}; }
+  function saveCart(){ try{ localStorage.setItem('dv_cart', JSON.stringify(cart)); }catch(e){} }
+  function money(n){ return '$' + n.toFixed(2); }
+  function findP(id){ for(var i=0;i<PRODUCTS.length;i++) if(PRODUCTS[i].id===id) return PRODUCTS[i]; return null; }
+  function cartCount(){ var c=0; for(var k in cart) c += cart[k]; return c; }
+  function cartTotal(){ var t=0; for(var k in cart){ var p=findP(k); if(p) t += p.price*cart[k]; } return t; }
+
+  function initShop(){
+    var grid = document.getElementById('shop-grid');
+    if(!grid) return;
+    // render catalog
+    PRODUCTS.forEach(function(p){
+      var el = document.createElement('div');
+      el.className = 'product';
+      el.innerHTML =
+        '<span class="cat">'+p.cat+'</span>' +
+        '<span class="pname">'+p.name+'</span>' +
+        '<span class="price">'+money(p.price)+'</span>' +
+        '<button class="add" type="button">Add to Order</button>';
+      el.querySelector('.add').addEventListener('click', function(){
+        cart[p.id] = (cart[p.id]||0) + 1;
+        saveCart(); renderCart();
+        var b = this;
+        b.textContent = 'Added ✓'; b.classList.add('added');
+        setTimeout(function(){ b.textContent = 'Add to Order'; b.classList.remove('added'); }, 900);
+      });
+      grid.appendChild(el);
+    });
+
+    // drawer wiring
+    var overlay = document.getElementById('cart-overlay');
+    var drawer = document.getElementById('cart-drawer');
+    function openCart(){ overlay.classList.add('open'); drawer.classList.add('open'); }
+    function closeCart(){ overlay.classList.remove('open'); drawer.classList.remove('open'); }
+    document.getElementById('cart-open').addEventListener('click', openCart);
+    document.getElementById('cart-close').addEventListener('click', closeCart);
+    overlay.addEventListener('click', closeCart);
+
+    // checkout wiring
+    var checkout = document.getElementById('checkout');
+    var choice = document.getElementById('pickup-choice');
+    var curb = document.getElementById('curbside-fields');
+    document.getElementById('to-checkout').addEventListener('click', function(){
+      if(cartCount() === 0){ return; }
+      closeCart();
+      document.getElementById('checkout-form-panel').style.display = '';
+      document.getElementById('confirm-panel').classList.remove('show');
+      renderSummary();
+      checkout.classList.add('open');
+    });
+    document.getElementById('co-cancel').addEventListener('click', function(){
+      checkout.classList.remove('open'); openCart();
+    });
+    choice.addEventListener('change', function(){
+      var val = choice.querySelector('input:checked').value;
+      choice.querySelectorAll('label').forEach(function(l){
+        l.classList.toggle('sel', l.querySelector('input').checked);
+      });
+      curb.classList.toggle('show', val === 'curbside');
+    });
+    document.getElementById('place-order').addEventListener('click', placeOrder);
+    // clear field errors as the user types
+    document.getElementById('co-name').addEventListener('input', function(){
+      document.getElementById('f-name').classList.remove('invalid');
+    });
+    document.getElementById('co-phone').addEventListener('input', function(){
+      document.getElementById('f-phone').classList.remove('invalid');
+    });
+    document.getElementById('confirm-done').addEventListener('click', function(){
+      checkout.classList.remove('open');
+    });
+
+    renderCart();
+  }
+
+  function renderCart(){
+    var wrap = document.getElementById('cart-items');
+    var n = cartCount();
+    document.getElementById('cart-count').textContent = n;
+    document.getElementById('cart-subtotal').textContent = money(cartTotal());
+    document.getElementById('to-checkout').style.opacity = n ? '' : '.4';
+    if(!n){ wrap.innerHTML = '<div class="cart-empty">Your order is empty.<br>Add products from the Products section.</div>'; return; }
+    wrap.innerHTML = '';
+    for(var id in cart){
+      (function(id){
+        var p = findP(id); if(!p) return;
+        var q = cart[id];
+        var row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML =
+          '<span class="nm">'+p.name+'</span>' +
+          '<span class="ln-price">'+money(p.price*q)+'</span>' +
+          '<span class="qty"><button type="button" class="dec">−</button> '+q+' <button type="button" class="inc">+</button></span>' +
+          '<button class="rm" type="button">Remove</button>';
+        row.querySelector('.inc').addEventListener('click', function(){ cart[id]++; saveCart(); renderCart(); });
+        row.querySelector('.dec').addEventListener('click', function(){
+          if(--cart[id] <= 0) delete cart[id];
+          saveCart(); renderCart();
+        });
+        row.querySelector('.rm').addEventListener('click', function(){ delete cart[id]; saveCart(); renderCart(); });
+        wrap.appendChild(row);
+      })(id);
+    }
+  }
+
+  function renderSummary(){
+    var s = document.getElementById('co-summary');
+    var html = '';
+    for(var id in cart){
+      var p = findP(id); if(!p) continue;
+      html += '<div class="row"><span>'+cart[id]+' × '+p.name+'</span><span>'+money(p.price*cart[id])+'</span></div>';
+    }
+    html += '<div class="row"><span>Sales tax</span><span>added at pickup</span></div>';
+    html += '<div class="row total"><span>Due at pickup</span><span>'+money(cartTotal())+'</span></div>';
+    s.innerHTML = html;
+  }
+
+  function placeOrder(){
+    var name = document.getElementById('co-name');
+    var phone = document.getElementById('co-phone');
+    var fName = document.getElementById('f-name');
+    var fPhone = document.getElementById('f-phone');
+    var nameOk = name.value.trim().length >= 2;
+    var phoneOk = (phone.value.replace(/\D/g,'').length >= 10);
+    fName.classList.toggle('invalid', !nameOk);
+    fPhone.classList.toggle('invalid', !phoneOk);
+    if(!nameOk || !phoneOk) return;
+
+    var method = document.querySelector('#pickup-choice input:checked').value;
+    var orderNo = 'DV-' + Math.random().toString(36).slice(2,6).toUpperCase();
+    // DEMO MODE: this is where a real order would be sent to your POS,
+    // ordering platform, or store email/SMS. Nothing is transmitted yet.
+    var msg = method === 'curbside'
+      ? "We'll text " + phone.value + " when your order is ready. Park out front and we'll bring it to your car — have your ID ready."
+      : "We'll text " + phone.value + " when your order is ready at the counter. Have your ID ready.";
+    document.getElementById('confirm-msg').textContent = msg;
+    document.getElementById('confirm-no').textContent = 'Order ' + orderNo + ' · ' + money(cartTotal()) + ' due at pickup';
+    document.getElementById('checkout-form-panel').style.display = 'none';
+    document.getElementById('confirm-panel').classList.add('show');
+    cart = {}; saveCart(); renderCart();
   }
 
   /* ============ MASCOT: walks with scroll ============ */
